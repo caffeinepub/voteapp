@@ -1,0 +1,234 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─────────────────────────────────────────
+   Font Faces
+───────────────────────────────────────── */
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("/assets/fonts/BricolageGrotesque-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Outfit";
+  src: url("/assets/fonts/Outfit-Variable.woff2") format("woff2");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ─────────────────────────────────────────
+   Design Tokens (OKLCH — raw L C H values)
+   Theme: Civic Navy × Teal × Off-white
+───────────────────────────────────────── */
+@layer base {
+  :root {
+    --radius: 0.75rem;
+
+    /* Surface */
+    --background: 0.97 0.006 240;
+    --foreground: 0.18 0.04 265;
+
+    /* Card */
+    --card: 1 0 0;
+    --card-foreground: 0.18 0.04 265;
+
+    /* Popover */
+    --popover: 1 0 0;
+    --popover-foreground: 0.18 0.04 265;
+
+    /* Primary — deep indigo */
+    --primary: 0.28 0.12 268;
+    --primary-foreground: 0.98 0 0;
+
+    /* Secondary — soft indigo tint */
+    --secondary: 0.92 0.025 260;
+    --secondary-foreground: 0.28 0.12 268;
+
+    /* Muted */
+    --muted: 0.94 0.01 250;
+    --muted-foreground: 0.52 0.04 262;
+
+    /* Accent — vibrant teal */
+    --accent: 0.72 0.16 195;
+    --accent-foreground: 0.12 0.04 268;
+
+    /* Destructive */
+    --destructive: 0.577 0.245 27.325;
+    --destructive-foreground: 0.985 0 0;
+
+    /* Success */
+    --success: 0.65 0.18 158;
+    --success-foreground: 0.98 0 0;
+
+    /* Warning */
+    --warning: 0.75 0.18 72;
+    --warning-foreground: 0.18 0.04 265;
+
+    /* Border & Input */
+    --border: 0.88 0.02 258;
+    --input: 0.88 0.02 258;
+    --ring: 0.28 0.12 268;
+
+    /* Chart colors */
+    --chart-1: 0.72 0.16 195;
+    --chart-2: 0.55 0.2 268;
+    --chart-3: 0.65 0.18 158;
+    --chart-4: 0.75 0.18 72;
+    --chart-5: 0.6 0.22 30;
+
+    /* Sidebar */
+    --sidebar: 0.22 0.08 268;
+    --sidebar-foreground: 0.95 0.01 250;
+    --sidebar-primary: 0.72 0.16 195;
+    --sidebar-primary-foreground: 0.12 0.04 268;
+    --sidebar-accent: 0.3 0.1 268;
+    --sidebar-accent-foreground: 0.95 0.01 250;
+    --sidebar-border: 0.35 0.08 268;
+    --sidebar-ring: 0.72 0.16 195;
+
+    /* Vote-app specific */
+    --vote-hero-gradient-from: 0.22 0.1 268;
+    --vote-hero-gradient-to: 0.32 0.14 280;
+    --vote-teal: 0.72 0.16 195;
+    --vote-gold: 0.78 0.18 85;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-body antialiased;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ─────────────────────────────────────────
+   App Shell
+───────────────────────────────────────── */
+#root {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: oklch(var(--background));
+}
+
+/* Noise texture overlay utility */
+.noise-bg {
+  position: relative;
+}
+.noise-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  border-radius: inherit;
+  z-index: 0;
+}
+
+/* Hero gradient */
+.vote-hero {
+  background: linear-gradient(
+    135deg,
+    oklch(var(--vote-hero-gradient-from)),
+    oklch(var(--vote-hero-gradient-to))
+  );
+}
+
+/* Teal accent */
+.text-teal {
+  color: oklch(var(--vote-teal));
+}
+
+.bg-teal {
+  background-color: oklch(var(--vote-teal));
+}
+
+/* Status badge colors */
+.status-voted {
+  background-color: oklch(0.65 0.18 158 / 0.15);
+  color: oklch(0.45 0.16 158);
+  border: 1px solid oklch(0.65 0.18 158 / 0.3);
+}
+
+.status-not-voted {
+  background-color: oklch(0.52 0.04 262 / 0.12);
+  color: oklch(0.45 0.04 262);
+  border: 1px solid oklch(0.52 0.04 262 / 0.25);
+}
+
+/* Candidate avatar colors */
+.avatar-indigo {
+  background: linear-gradient(135deg, oklch(0.45 0.18 268), oklch(0.55 0.22 285));
+}
+.avatar-teal {
+  background: linear-gradient(135deg, oklch(0.55 0.18 195), oklch(0.65 0.16 180));
+}
+.avatar-rose {
+  background: linear-gradient(135deg, oklch(0.55 0.2 22), oklch(0.65 0.18 38));
+}
+.avatar-violet {
+  background: linear-gradient(135deg, oklch(0.48 0.22 290), oklch(0.58 0.2 310));
+}
+.avatar-emerald {
+  background: linear-gradient(135deg, oklch(0.52 0.18 158), oklch(0.62 0.16 168));
+}
+
+/* Progress bar for vote results */
+.result-bar {
+  background: linear-gradient(90deg, oklch(var(--vote-teal)), oklch(0.55 0.22 268));
+}
+
+/* Leading badge */
+.leading-badge {
+  background: linear-gradient(90deg, oklch(var(--vote-gold) / 0.2), oklch(var(--vote-gold) / 0.1));
+  color: oklch(0.55 0.18 72);
+  border: 1px solid oklch(var(--vote-gold) / 0.4);
+}
+
+/* Smooth page transition */
+@keyframes fadeSlideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-enter {
+  animation: fadeSlideIn 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+@keyframes checkPop {
+  0% { transform: scale(0) rotate(-10deg); opacity: 0; }
+  60% { transform: scale(1.15) rotate(3deg); }
+  100% { transform: scale(1) rotate(0deg); opacity: 1; }
+}
+
+.check-pop {
+  animation: checkPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.6; }
+  100% { transform: scale(1.4); opacity: 0; }
+}
+
+.pulse-ring {
+  animation: pulse-ring 1.5s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+}
